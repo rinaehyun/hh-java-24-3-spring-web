@@ -17,11 +17,13 @@ public class ProductService {
         return productRepo.findAll();
     }
 
-    public Product saveProduct(Product product) {
+    public Product saveProduct(NewProductDto product) {
         // Logic here -> if some attributes doesn't have pre-defined values
-        Product productToSave = product
-                .withId(UUID.randomUUID().toString())
-                .withPrice(5);
+        Product productToSave = new Product(
+                UUID.randomUUID().toString(),
+                product.title(),
+                product.description(),
+                5);
         // *******
         return productRepo.save(productToSave);
     }
