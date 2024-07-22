@@ -11,7 +11,7 @@ import java.util.List;
 public class ProductController {
 
     // Dependency Injection
-    private final ProductRepo productRepo;
+    private final ProductService productService;
 
     //public ProductController(ProductRepo productRepo) {
     //    this.productRepo = productRepo;
@@ -19,15 +19,12 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getAllProducts() {
-        List<Product> allProducts = productRepo.findAll();
+        List<Product> allProducts = productService.findAllProducts();
         return allProducts;
     }
 
     @PostMapping
     public Product postProduct(@RequestBody Product product) {
-        // Logic here -> if some attributes doesn't have pre-defined values
-        Product productTosave = product.withPrice(5);
-        //
-        return productRepo.save(productTosave);
+        return productService.saveProduct(product);
     }
 }
