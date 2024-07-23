@@ -20,9 +20,12 @@ public class ProductIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    ProductRepo productRepo;
+
     @Test
     @DirtiesContext
-    void getAllProducts() throws Exception {
+    void getAllProductsTest_returnEmpty() throws Exception {
         // GIVEN
 
         // WHEN
@@ -33,6 +36,35 @@ public class ProductIntegrationTest {
                 .andExpect(content().json("""
                         []
                     """));
+    }
+
+    @Test
+    @DirtiesContext
+    void getAllProductsTest_returnJsonArray() throws Exception {
+        // GIVEN
+        productRepo.save(new Product("1", "Apple", "Good", 5));
+        productRepo.save(new Product("2", "Banana", "Very good", 10));
+        // WHEN
+        mockMvc.perform(get("/api/products"))
+
+                // THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        [
+                            {
+                                "id": "1",
+                                "title": "Apple",
+                                "description": "Good",
+                                "price": 5
+                            },
+                            {
+                                "id": "2",
+                                "title": "Banana",
+                                "description": "Very good",
+                                "price": 10
+                            }
+                        ]
+                        """));
     }
 
     @Test
