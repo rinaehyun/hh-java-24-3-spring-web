@@ -9,6 +9,12 @@ public class RickAndMortyApiService {
 
     private final RestClient restClient;
 
+    public RickAndMortyApiService() {
+        restClient = RestClient.builder()
+                .baseUrl("https://rickandmortyapi.com/api")
+                .build();
+    }
+
     public RickAndMortyApiService(@Value("${app.rickandmorty.api.url}") String baseUrl) {
         restClient = RestClient.create(baseUrl);
     }
